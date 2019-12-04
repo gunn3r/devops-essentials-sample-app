@@ -13,7 +13,22 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+#- script: |
+#    echo Add other tasks to build, test, and deploy your project.
+#    echo See https://aka.ms/yaml
+#  displayName: 'Run a multi-line script'
+
+- task: CmdLine@2
+  displayName: 'Run Tosca CI'
+  inputs:
+    script: '$(Agent.HomeDirectory)\\_work\\Client\\ToscaCIClient.exe -m distributed -t junit -r $(Common.TestResultsDirectory)\\ToscaCI.xml'
+    
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/ToscaCI*.xml'
+    searchFolder: '$(Common.TestResultsDirectory)'
+    failTaskOnFailedTests: true
+    testRunTitle: 'Publish ToscaCI Test Results'
+
+
