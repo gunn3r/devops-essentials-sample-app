@@ -31,4 +31,3 @@ steps:
     failTaskOnFailedTests: true
     testRunTitle: 'Publish ToscaCI Test Results'
 
-
